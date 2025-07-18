@@ -30,7 +30,9 @@ PLATFORMS = {
     "Nintendo 3DS": "metadat/no-intro/Nintendo - Nintendo 3DS.dat",
     "PlayStation": "metadat/redump/Sony - PlayStation.dat",
     "PlayStation 2": "metadat/redump/Sony - PlayStation 2.dat",
-    "PSP": "metadat/no-intro/Sony - PlayStation Portable.dat"
+    "PSP": "metadat/no-intro/Sony - PlayStation Portable.dat",
+    "GameCube": "metadat/redump/Nintendo - GameCube.dat",
+    "Wii": "metadat/redump/Nintendo - Wii.dat"
 }
 
 # File extension to platform mapping
@@ -42,9 +44,14 @@ EXTENSION_MAP = {
     '.nds': ['Nintendo DS', 'Nintendo DS Download Play', 'Nintendo DSi'],
     '.3ds': 'Nintendo 3DS',
     # Disc images: PSP and PS2 both use .iso
-    '.iso': ['PSP', 'PlayStation 2'],
+    '.iso': ['PSP', 'PlayStation 2', 'Wii'],
     '.cso': 'PSP',
     '.pbp': 'PSP',
+    # GameCube image formats
+    '.gcm': 'GameCube',
+    '.ciso': 'GameCube',
+    # Wii image format
+    '.wbfs': 'Wii',
     # CD-based: PS1 and PS2 may use .bin/.cue
     '.psx': 'PlayStation',
     '.cue': ['PlayStation', 'PlayStation 2'],
@@ -53,6 +60,19 @@ EXTENSION_MAP = {
 
 # Extensions that commonly have encryption issues
 ENCRYPTION_PRONE_EXTENSIONS = {'.nds', '.3ds'}
+
+# Aliases for inferring platform from folder names
+PLATFORM_ALIASES = {
+    'PlayStation': ['ps1', 'psx', 'playstation'],
+    'PlayStation 2': ['ps2', 'playstation2'],
+    'PSP': ['psp'],
+    'Wii': ['wii'],
+    'GameCube': ['gamecube', 'gcm', 'ciso'],
+    'Nintendo DS': ['nds', 'nintendods', 'nintendo-ds'],
+    'Nintendo DSi': ['dsi', 'nintendodsi'],
+    'Nintendo DS Download Play': ['downloadplay', 'ndsd', 'dsdownload'],
+    'Nintendo 3DS': ['3ds', 'nintendo3ds']
+}
 
 def download_dat(platform, dat_dir):
     """Download DAT file for a platform"""
@@ -293,6 +313,18 @@ def main():
     # Create DAT directory
     dat_path.mkdir(exist_ok=True)
     
+    # Infer platform if running inside a single platform folder
+    root_name = rom_path.name.lower().replace(' ', '')
+    root_platform = None
+    for plat, aliases in PLATFORM_ALIASES.items():
+        for alias in aliases:
+            if alias in root_name:
+                root_platform = plat
+                break
+        if root_platform:
+            print(f"Inferring single platform from folder: {root_platform}")
+            break
+
     # Find all ROM files and determine needed platforms
     rom_files = []
     needed_platforms = set()
@@ -308,10 +340,38 @@ def main():
             if extension in EXTENSION_MAP:
                 rom_files.append(file_path)
                 platforms = EXTENSION_MAP[extension]
-                # Support multiple platforms per extension
+                # If root_platform is set, only include matches for that platform
+                if root_platform:
+                    if isinstance(platforms, list):
+                        if root_platform in platforms:
+                            needed_platforms.add(root_platform)
+                            continue
+                    else:
+                        if root_platform == platforms:
+                            needed_platforms.add(platforms)
+                            continue
+                    # Skip files that don't match root platform
+                    continue
+
+                # Support list mappings by guessing via folder name
                 if isinstance(platforms, list):
+                    # Try to infer platform from parent folder
+                    parent_name = file_path.parent.name.lower().replace(' ', '')
+                    guessed = None
                     for p in platforms:
-                        needed_platforms.add(p)
+                        aliases = PLATFORM_ALIASES.get(p, [p.lower().replace(' ', '')])
+                        for alias in aliases:
+                            if alias in parent_name:
+                                guessed = p
+                                break
+                        if guessed:
+                            break
+                    if guessed:
+                        needed_platforms.add(guessed)
+                    else:
+                        # Fallback: load all possible platforms
+                        for p in platforms:
+                            needed_platforms.add(p)
                 else:
                     needed_platforms.add(platforms)
 
