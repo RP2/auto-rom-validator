@@ -1,6 +1,6 @@
 # Auto ROM Validator
 
-A Python script to validate and standardize your ROM backup collection using official No-Intro and Redump DAT files. This project was to satisfy a need to automate the process of validating files from backing up physical games.
+A Python script to automate the process of validating and standardizing your ROM backup collection using official No-Intro and Redump DAT files.
 
 ## Disclaimer
 
@@ -37,6 +37,22 @@ chmod +x auto_validate_roms.py
 
 # Or via Python 3 interpreter:
 python3 auto_validate_roms.py --romdir /path/to/ROMS [options]
+```
+
+### Using a Python virtual environment
+
+```bash
+# Create and activate venv
+python3 -m venv .venv
+source .venv/bin/activate  # on Windows use `.venv\Scripts\activate`
+
+# Install dependencies
+pip install requests tqdm \
+    # Or install all via requirements file
+    -r requirements.txt
+
+# Run the validator
+python auto_validate_roms.py --romdir /path/to/ROMS [options]
 ```
 
 ## Options
@@ -76,6 +92,7 @@ https://datomatic.no-intro.org/index.php?page=download
 - Python 3.7+
 - `requests` (`pip install requests`)
 - Optional: `tqdm` for progress bars (`pip install tqdm`)
+- Install all via requirements file: `pip install -r requirements.txt`
 
 ## License
 
