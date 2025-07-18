@@ -1,6 +1,10 @@
 # Auto ROM Validator
 
-A Python script to validate and standardize your ROM backup collection using official No-Intro and Redump DAT files.
+A Python script to validate and standardize your ROM backup collection using official No-Intro and Redump DAT files. This project was to satisfy a need to automate the process of validating files from backing up physical games.
+
+## Disclaimer
+
+This tool is intended solely for legitimate game preservation and backups of games you own. It is not designed to facilitate piracy. Users are responsible for complying with applicable copyright laws.
 
 On startup, the script reports:
 
@@ -25,7 +29,14 @@ Detected platforms: <Platform1>, <Platform2>, ...
 ## Usage
 
 ```bash
-python auto_validate_roms.py --romdir /path/to/ROMS [options]
+# Ensure the script is executable:
+chmod +x auto_validate_roms.py
+
+# Run directly:
+./auto_validate_roms.py --romdir /path/to/ROMS [options]
+
+# Or via Python 3 interpreter:
+python3 auto_validate_roms.py --romdir /path/to/ROMS [options]
 ```
 
 ## Options
