@@ -422,6 +422,7 @@ def main():
     valid_count = 0
     unknown_count = 0
     renamed_count = 0
+    save_renamed_count = 0
     unknown_files = []
     
     # Create progress bar
@@ -491,17 +492,26 @@ def main():
             # Handle renaming
             if args.rename or args.dry_run:
                 if rename_file(rom_file, rom_name, dry_run=args.dry_run):
-                    renamed_count += 1
-                    if args.verbose:
-                        action = "Would rename" if args.dry_run else "Renamed"
-                        # Use tqdm.write to avoid interfering with progress bar
-                        if tqdm:
-                            tqdm.write(f"{action}: {rom_file.name} -> {rom_name}")
-                            # Small delay to help with progress bar display
-                            import time
-                            time.sleep(0.01)
+                    # Rename corresponding .sav files to match the new ROM name
+                    old_stem = rom_file.stem
+                    new_stem = Path(rom_name).stem
+                    for sav_path in rom_file.parent.rglob(f"{old_stem}.sav"):
+                        new_sav = sav_path.with_name(f"{new_stem}.sav")
+                        if args.dry_run:
+                            # Dry-run output for save files
+                            if tqdm:
+                                tqdm.write(f"[Dry Run] Would rename save file: {sav_path.name} -> {new_sav.name}")
+                            else:
+                                print(f"[Dry Run] Would rename save file: {sav_path.name} -> {new_sav.name}")
                         else:
-                            print(f"{action}: {rom_file.name} -> {rom_name}")
+                            sav_path.rename(new_sav)
+                            save_renamed_count += 1
+                            # Verbose output for save files
+                            if args.verbose:
+                                if tqdm:
+                                    tqdm.write(f"Renamed save file: {sav_path.name} -> {new_sav.name}")
+                                else:
+                                    print(f"Renamed save file: {sav_path.name} -> {new_sav.name}")
             
             if args.verbose:
                 # Use tqdm.write to avoid interfering with progress bar
@@ -547,6 +557,9 @@ def main():
         if renamed_count > 0:
             action = "would be renamed" if args.dry_run else "renamed"
             tqdm.write(f"Files {action}: {renamed_count}")
+        if save_renamed_count > 0:
+            action = "would be renamed" if args.dry_run else "renamed"
+            tqdm.write(f"Save files {action}: {save_renamed_count}")
         
         # Check if we have encryption-prone files that didn't match
         encryption_prone_unknown = []
@@ -564,6 +577,9 @@ def main():
         if renamed_count > 0:
             action = "would be renamed" if args.dry_run else "renamed"
             print(f"Files {action}: {renamed_count}")
+        if save_renamed_count > 0:
+            action = "would be renamed" if args.dry_run else "renamed"
+            print(f"Save files {action}: {save_renamed_count}")
         # Check if we have encryption-prone files that didn't match
         encryption_prone_unknown = []
         for file_path in unknown_files:

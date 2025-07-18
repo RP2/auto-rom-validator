@@ -20,6 +20,7 @@ Detected platforms: <Platform1>, <Platform2>, ...
 - **Multi-Hash Validation:** Checks files using SHA1, MD5, and CRC32.
 - **Folder Awareness:** Suggests or renames platform folders based on file contents.
 - **File & Folder Renaming:** Standardizes filenames and CD-based game folders (`.bin`/`.cue`).
+- **Save File Renaming:** Automatically renames corresponding `.sav` files to match updated ROM filenames.
 - **Unknowns List:** Maintains `unknown.txt`, rewriting it each run to clear old entries.
 - **Progress Bars:** Shows per-file progress with `tqdm` if installed.
 - **Verbose Mode:** Detailed per-file output with `--verbose`.
@@ -76,6 +77,7 @@ Unknown files written to: unknown.txt
 
 Results: 45 valid, 1 unknown
 Files renamed: 10
+Save files renamed: 8
 ```
 
 If DS/3DS encryption mismatches occur, it will note:
