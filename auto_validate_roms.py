@@ -43,8 +43,8 @@ EXTENSION_MAP = {
     # DS-based ROMs map to multiple DATs
     '.nds': ['Nintendo DS', 'Nintendo DS Download Play', 'Nintendo DSi'],
     '.3ds': 'Nintendo 3DS',
-    # Disc images: PSP and PS2 both use .iso
-    '.iso': ['PSP', 'PlayStation 2', 'Wii'],
+    # Disc images: all platforms that use .iso
+    '.iso': ['GameCube', 'PSP', 'PlayStation 2', 'Wii'],
     '.cso': 'PSP',
     '.pbp': 'PSP',
     # GameCube image formats
