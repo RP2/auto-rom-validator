@@ -31,13 +31,13 @@ Detected platforms: <Platform1>, <Platform2>, ...
 
 ```bash
 # Ensure the script is executable:
-chmod +x auto_validate_roms.py
+chmod +x main.py
 
 # Run directly:
-./auto_validate_roms.py --romdir /path/to/ROMS [options]
+./main.py --romdir /path/to/ROMS [options]
 
 # Or via Python 3 interpreter:
-python3 auto_validate_roms.py --romdir /path/to/ROMS [options]
+python3 main.py --romdir /path/to/ROMS [options]
 ```
 
 ### Using a Python virtual environment
@@ -53,7 +53,7 @@ pip install requests tqdm \
     -r requirements.txt
 
 # Run the validator
-python auto_validate_roms.py --romdir /path/to/ROMS [options]
+python main.py --romdir /path/to/ROMS [options]
 ```
 
 ## Options
