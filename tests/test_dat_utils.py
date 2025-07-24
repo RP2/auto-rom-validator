@@ -60,6 +60,7 @@ def test_parse_dat_no_intro_xml(
 
 # Test with minimal clrmamepro DAT (text format) in tests/test-dats/
 
+
 @pytest.mark.parametrize(
     "dat_path,expected_sha1,expected_md5,expected_crc,expected_filename",
     [

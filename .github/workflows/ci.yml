@@ -21,15 +21,15 @@ jobs:
       - name: Remove unused imports and variables with autoflake
         run: |
           autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r .
+      - name: Check formatting with black, auto-fix if needed
+        run: |
+          black --check . || black .
+      - name: Check import order with isort, auto-fix if needed
+        run: |
+          isort --check-only . || isort .
       - name: Lint with flake8
         run: |
           flake8 .
-      - name: Check formatting with black
-        run: |
-          black --check .
-      - name: Check import order with isort
-        run: |
-          isort --check-only .
       - name: Run tests
         run: |
           pytest
