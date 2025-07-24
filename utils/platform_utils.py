@@ -36,9 +36,7 @@ def guess_platform_from_file(
         if isinstance(platforms, list):
             parent_name = file_path.parent.name.lower().replace(" ", "")
             for p in platforms:
-                aliases = platform_aliases.get(
-                    p, [p.lower().replace(" ", "")]
-                )
+                aliases = platform_aliases.get(p, [p.lower().replace(" ", "")])
                 for alias in aliases:
                     if alias in parent_name:
                         return p

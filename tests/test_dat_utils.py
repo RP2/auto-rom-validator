@@ -6,9 +6,7 @@ import pytest
 from utils.dat_utils import parse_custom_dat, parse_dat
 
 # Find all possible No-Intro XML DATs for NDS Encrypted
-no_intro_nds_encrypted_dats = glob.glob(
-    "dats/Nintendo - Nintendo DS (Encrypted) (*.dat"
-)
+no_intro_nds_encrypted_dats = glob.glob("dats/Nintendo - Nintendo DS (Encrypted) (*.dat")
 
 
 @pytest.mark.parametrize(

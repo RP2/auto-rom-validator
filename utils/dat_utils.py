@@ -6,9 +6,7 @@ from typing import Dict, Optional, Tuple
 import requests
 
 
-def download_dat(
-    platform: str, dat_dir: Path, platforms: dict, base_url: str
-) -> Optional[Path]:
+def download_dat(platform: str, dat_dir: Path, platforms: dict, base_url: str) -> Optional[Path]:
     """Download DAT file for a platform"""
     if platform not in platforms:
         return None
@@ -59,9 +57,7 @@ def parse_dat(
             desc_match = re.search(r'description\s+"([^"]*)"', game_content)
             game_desc = desc_match.group(1) if desc_match else "Unknown"
             rom_lines = [
-                line.strip()
-                for line in game_content.split("\n")
-                if "rom (" in line and ")" in line
+                line.strip() for line in game_content.split("\n") if "rom (" in line and ")" in line
             ]
             for rom_line in rom_lines:
                 name_match = re.search(r'name\s+"([^"]*)"', rom_line)
