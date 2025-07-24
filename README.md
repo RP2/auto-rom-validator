@@ -55,20 +55,20 @@ pip install -r requirements-dev.txt
 
 ## Development & Testing
 
-- All development dependencies (pytest, flake8, black, isort, autopep8) are listed in `requirements-dev.txt`.
+- All development dependencies (pytest, flake8, black, isort, autoflake) are listed in `requirements-dev.txt`.
 - To run the test suite:
 
 ```bash
 pytest
 ```
 
-- To run linting and formatting checks:
+- To run linting, formatting, and import cleanup:
 
 ```bash
 flake8 .
-black --check .
-isort --check-only .
-autopep8 --in-place --recursive .
+black .
+isort .
+autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r .
 ```
 
 - Continuous Integration (CI) runs all tests and checks automatically on push/PR to `master` (see `.github/workflows/ci.yml`).

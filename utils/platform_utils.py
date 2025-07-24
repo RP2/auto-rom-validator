@@ -25,7 +25,9 @@ def infer_platform_from_folder(folder_name: str) -> Optional[str]:
 
 
 def guess_platform_from_file(
-    file_path: Path, extension_map: Dict[str, str], platform_aliases: Dict[str, List[str]]
+    file_path: Path,
+    extension_map: Dict[str, str],
+    platform_aliases: Dict[str, List[str]],
 ) -> Optional[str]:
     """Guess platform from file extension and parent folder name."""
     ext = file_path.suffix.lower()
@@ -34,7 +36,9 @@ def guess_platform_from_file(
         if isinstance(platforms, list):
             parent_name = file_path.parent.name.lower().replace(" ", "")
             for p in platforms:
-                aliases = platform_aliases.get(p, [p.lower().replace(" ", "")])
+                aliases = platform_aliases.get(
+                    p, [p.lower().replace(" ", "")]
+                )
                 for alias in aliases:
                     if alias in parent_name:
                         return p

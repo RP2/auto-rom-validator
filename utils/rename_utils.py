@@ -14,7 +14,9 @@ def rename_file(old_path: Path, new_name: str, dry_run: bool = False) -> bool:
     return True
 
 
-def rename_cd_based_game_folder(folder_path: Path, new_name: str, dry_run: bool = False) -> bool:
+def rename_cd_based_game_folder(
+    folder_path: Path, new_name: str, dry_run: bool = False
+) -> bool:
     """Rename a folder containing CD-based game files to the official DAT name"""
     folder_path = Path(folder_path)
     new_name = Path(new_name).stem

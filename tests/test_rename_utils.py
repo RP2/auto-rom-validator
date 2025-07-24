@@ -1,6 +1,5 @@
-from utils.rename_utils import rename_file, rename_cd_based_game_folder
-from pathlib import Path
-import pytest
+from utils.rename_utils import rename_cd_based_game_folder, rename_file
+
 
 def test_rename_file(tmp_path):
     # Create a dummy file
@@ -14,6 +13,7 @@ def test_rename_file(tmp_path):
     assert rename_file(orig, new_name)
     assert not orig.exists()
     assert (tmp_path / new_name).exists()
+
 
 def test_rename_cd_based_game_folder(tmp_path):
     # Create a dummy folder

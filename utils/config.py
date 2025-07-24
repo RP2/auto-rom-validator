@@ -1,7 +1,9 @@
 # config.py
 """Configuration for ROM Validator"""
 
-LIBRETRO_BASE_URL = "https://raw.githubusercontent.com/libretro/libretro-database/master"
+LIBRETRO_BASE_URL = (
+    "https://raw.githubusercontent.com/libretro/libretro-database/master"
+)
 
 PLATFORMS = {
     "Game Boy Advance": "metadat/no-intro/Nintendo - Game Boy Advance.dat",

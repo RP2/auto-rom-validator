@@ -31,14 +31,21 @@ except ImportError:
 
 def main():
     parser = argparse.ArgumentParser(description="Simple ROM Validator")
-    parser.add_argument("--romdir", required=True,
-                        help="Directory containing ROM files")
-    parser.add_argument("--datdir", default="./dats",
-                        help="Directory for DAT files")
-    parser.add_argument("--rename", action="store_true",
-                        help="Rename files to official DAT names")
     parser.add_argument(
-        "--dry-run", action="store_true", help="Show what would be renamed without doing it"
+        "--romdir", required=True, help="Directory containing ROM files"
+    )
+    parser.add_argument(
+        "--datdir", default="./dats", help="Directory for DAT files"
+    )
+    parser.add_argument(
+        "--rename",
+        action="store_true",
+        help="Rename files to official DAT names",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be renamed without doing it",
     )
     parser.add_argument(
         "--skip-large",
@@ -46,8 +53,9 @@ def main():
         metavar="MB",
         help="Skip files larger than this size in MB (default: process all files)",
     )
-    parser.add_argument("--verbose", "-v",
-                        action="store_true", help="Verbose output")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Verbose output"
+    )
     args = parser.parse_args()
 
     rom_path = Path(args.romdir)
@@ -92,7 +100,8 @@ def main():
                 # Use platform utils to guess platform from file
                 if isinstance(platforms, list):
                     guessed = guess_platform_from_file(
-                        file_path, EXTENSION_MAP, PLATFORM_ALIASES)
+                        file_path, EXTENSION_MAP, PLATFORM_ALIASES
+                    )
                     if guessed:
                         needed_platforms.add(guessed)
                     else:
@@ -116,7 +125,8 @@ def main():
 
     for platform in needed_platforms:
         dat_file = download_dat(
-            platform, dat_path, PLATFORMS, LIBRETRO_BASE_URL)
+            platform, dat_path, PLATFORMS, LIBRETRO_BASE_URL
+        )
         if dat_file:
             sha1_map, md5_map, crc32_map = parse_dat(dat_file)
             all_sha1_maps.update(sha1_map)
@@ -126,24 +136,33 @@ def main():
                 print(f"Loaded {len(sha1_map)} entries from {platform} DAT")
 
     # Load additional Encrypted/Decrypted DATs only if DS or 3DS detected
-    if "Nintendo DS" in needed_platforms or "Nintendo 3DS" in needed_platforms:
+    if (
+        "Nintendo DS" in needed_platforms
+        or "Nintendo 3DS" in needed_platforms
+    ):
         patterns = []
         if "Nintendo DS" in needed_platforms:
-            patterns += ["*Nintendo DS*Encrypted*.dat",
-                         "*Nintendo DS*Decrypted*.dat"]
+            patterns += [
+                "*Nintendo DS*Encrypted*.dat",
+                "*Nintendo DS*Decrypted*.dat",
+            ]
         if "Nintendo 3DS" in needed_platforms:
-            patterns += ["*Nintendo 3DS*Encrypted*.dat",
-                         "*Nintendo 3DS*Decrypted*.dat"]
+            patterns += [
+                "*Nintendo 3DS*Encrypted*.dat",
+                "*Nintendo 3DS*Decrypted*.dat",
+            ]
         for pattern in patterns:
             for extra_dat in dat_path.glob(pattern):
                 sha1_map_x, md5_map_x, crc32_map_x = parse_custom_dat(
-                    extra_dat)
+                    extra_dat
+                )
                 all_sha1_maps.update(sha1_map_x)
                 all_md5_maps.update(md5_map_x)
                 all_crc32_maps.update(crc32_map_x)
                 if args.verbose:
                     print(
-                        f"Loaded custom DAT '{extra_dat.name}' with {len(sha1_map_x)} entries")
+                        f"Loaded custom DAT '{extra_dat.name}' with {len(sha1_map_x)} entries"
+                    )
 
     if not all_sha1_maps and not all_md5_maps and not all_crc32_maps:
         print("No DAT entries loaded")
@@ -177,17 +196,20 @@ def main():
             if args.verbose:
                 if tqdm:
                     tqdm.write(
-                        f"⏭ Skipping large file: {rom_file.name} ({file_size_mb:.1f}MB)")
+                        f"⏭ Skipping large file: {rom_file.name} ({file_size_mb:.1f}MB)"
+                    )
                 else:
                     print(
-                        f"⏭ Skipping large file: {rom_file.name} ({file_size_mb:.1f}MB)")
+                        f"⏭ Skipping large file: {rom_file.name} ({file_size_mb:.1f}MB)"
+                    )
             continue
 
         # Check if the file is part of a CD-based game
         if rom_file.suffix.lower() in [".bin", ".cue"]:
             folder_path = rom_file.parent
             result = validate_file(
-                rom_file, all_sha1_maps, all_md5_maps, all_crc32_maps)
+                rom_file, all_sha1_maps, all_md5_maps, all_crc32_maps
+            )
 
             if result:
                 rom_name, game_desc = result
@@ -195,16 +217,22 @@ def main():
 
                 # Handle renaming the folder
                 if args.rename or args.dry_run:
-                    if rename_cd_based_game_folder(folder_path, rom_name, dry_run=args.dry_run):
+                    if rename_cd_based_game_folder(
+                        folder_path, rom_name, dry_run=args.dry_run
+                    ):
                         renamed_count += 1
                         if args.verbose:
-                            action = "Would rename" if args.dry_run else "Renamed"
+                            action = (
+                                "Would rename" if args.dry_run else "Renamed"
+                            )
                             if tqdm:
                                 tqdm.write(
-                                    f"{action} folder: {folder_path.name} -> {rom_name}")
+                                    f"{action} folder: {folder_path.name} -> {rom_name}"
+                                )
                             else:
                                 print(
-                                    f"{action} folder: {folder_path.name} -> {rom_name}")
+                                    f"{action} folder: {folder_path.name} -> {rom_name}"
+                                )
 
                 if args.verbose:
                     if tqdm:
@@ -221,8 +249,9 @@ def main():
                         print(f"✗ {rom_file.name} -> Unknown")
             continue
 
-        result = validate_file(rom_file, all_sha1_maps,
-                               all_md5_maps, all_crc32_maps)
+        result = validate_file(
+            rom_file, all_sha1_maps, all_md5_maps, all_crc32_maps
+        )
 
         if result:
             rom_name, game_desc = result
@@ -257,7 +286,8 @@ def main():
                                     )
                                 else:
                                     print(
-                                        f"Renamed save file: {sav_path.name} -> {new_sav.name}")
+                                        f"Renamed save file: {sav_path.name} -> {new_sav.name}"
+                                    )
 
             if args.verbose:
                 # Use tqdm.write to avoid interfering with progress bar
@@ -317,7 +347,8 @@ def main():
 
         if encryption_prone_unknown:
             tqdm.write(
-                f"\nNote: {len(encryption_prone_unknown)} DS/3DS files didn't match.")
+                f"\nNote: {len(encryption_prone_unknown)} DS/3DS files didn't match."
+            )
             tqdm.write(
                 "This is likely because you have encrypted ROMs, the auto downloaded No-Intro DATs list decrypted versions."
             )
@@ -325,7 +356,8 @@ def main():
                 "[!] Your files may be valid, recheck after downloading the encrypted DATs from no-intro"
             )
             tqdm.write(
-                "Link: https://datomatic.no-intro.org/index.php?page=download")
+                "Link: https://datomatic.no-intro.org/index.php?page=download"
+            )
     else:
         print(f"\nResults: {valid_count} valid, {unknown_count} unknown")
         if renamed_count > 0:
@@ -341,7 +373,8 @@ def main():
                 encryption_prone_unknown.append(file_path)
         if encryption_prone_unknown:
             print(
-                f"\nNote: {len(encryption_prone_unknown)} DS/3DS files didn't match.")
+                f"\nNote: {len(encryption_prone_unknown)} DS/3DS files didn't match."
+            )
             print(
                 "This is likely because you have encrypted ROMs but No-Intro DATs use decrypted versions."
             )
