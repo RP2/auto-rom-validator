@@ -1,0 +1,11 @@
+clrmamepro (
+  name "Nintendo DS"
+)
+game (
+  name "007 - Blood Stone (USA)"
+  rom ( name "007 - Blood Stone (USA).nds" size 67108864 crc 8aa9e6c7 md5 03ba799635f3e34cfd64f353330f6799 sha1 dadbccf3ccaa2a084d4fe3ece410c495c842811f )
+)
+game (
+  name "007 - Quantum of Solace (USA) (En,Fr)"
+  rom ( name "007 - Quantum of Solace (USA) (En,Fr).nds" size 67108864 crc 283013fa md5 ed77d9951a61e1b2aebbdc3c3edd7f07 sha1 c2d2434d0323312f4fc2680d8ff9659be7e38201 )
+)

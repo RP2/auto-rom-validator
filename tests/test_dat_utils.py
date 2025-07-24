@@ -5,8 +5,8 @@ import pytest
 
 from utils.dat_utils import parse_custom_dat, parse_dat
 
-# Find all possible No-Intro XML DATs for NDS Encrypted
-no_intro_nds_encrypted_dats = glob.glob("dats/Nintendo - Nintendo DS (Encrypted) (*.dat")
+# Use minimal No-Intro XML DAT for NDS Encrypted in tests/test-dats/
+no_intro_nds_encrypted_dats = glob.glob("tests/test-dats/Nintendo - Nintendo DS (Encrypted).dat")
 
 
 @pytest.mark.parametrize(
@@ -58,21 +58,20 @@ def test_parse_dat_no_intro_xml(
     assert expected_filename in crc32_map[expected_crc]
 
 
-# Test with real clrmamepro DAT (text format)
-
+# Test with minimal clrmamepro DAT (text format) in tests/test-dats/
 
 @pytest.mark.parametrize(
     "dat_path,expected_sha1,expected_md5,expected_crc,expected_filename",
     [
         (
-            Path("dats/Nintendo DS.dat"),
+            Path("tests/test-dats/Nintendo DS.dat"),
             "dadbccf3ccaa2a084d4fe3ece410c495c842811f",
             "03ba799635f3e34cfd64f353330f6799",
             "8aa9e6c7",
             "007 - Blood Stone (USA).nds",
         ),
         (
-            Path("dats/Nintendo DS.dat"),
+            Path("tests/test-dats/Nintendo DS.dat"),
             "c2d2434d0323312f4fc2680d8ff9659be7e38201",
             "ed77d9951a61e1b2aebbdc3c3edd7f07",
             "283013fa",

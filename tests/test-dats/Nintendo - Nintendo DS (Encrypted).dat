@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datafile>
+  <header>
+    <name>Nintendo - Nintendo DS (Encrypted)</name>
+  </header>
+  <game name="007 - Blood Stone (USA)">
+    <rom name="007 - Blood Stone (USA).nds" size="67108864" crc="021595f7" md5="03c516c5c6d736b935d1626ad297e3aa" sha1="e2fd3a208153d2096cfddcc82bb14f34a5917067" />
+  </game>
+  <game name="007 - Quantum of Solace (USA) (En,Fr)">
+    <rom name="007 - Quantum of Solace (USA) (En,Fr).nds" size="67108864" crc="67f2b05f" md5="23d8012fa0374a06214072156eb4fc28" sha1="d2a7729c02f5b409ea5032e0a1dd6416816eeb10" />
+  </game>
+  <game name="Learn with Pokemon - Typing Adventure (Europe)">
+    <rom name="Learn with Pokemon - Typing Adventure (Europe).nds" size="67108864" crc="28dd5577" md5="8c39b2846857f4ca276a2a167964e1dd" sha1="e4d14529bf26eb8af1763a399ee6e7b176b87840" />
+  </game>
+</datafile>
