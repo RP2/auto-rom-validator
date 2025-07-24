@@ -48,13 +48,30 @@ python3 -m venv .venv
 source .venv/bin/activate  # on Windows use `.venv\Scripts\activate`
 
 # Install dependencies
-pip install requests tqdm \
-    # Or install all via requirements file
-    -r requirements.txt
-
-# Run the validator
-python main.py --romdir /path/to/ROMS [options]
+pip install -r requirements.txt
+# For development (tests, linting, formatting):
+pip install -r requirements-dev.txt
 ```
+
+## Development & Testing
+
+- All development dependencies (pytest, flake8, black, isort, autopep8) are listed in `requirements-dev.txt`.
+- To run the test suite:
+
+```bash
+pytest
+```
+
+- To run linting and formatting checks:
+
+```bash
+flake8 .
+black --check .
+isort --check-only .
+autopep8 --in-place --recursive .
+```
+
+- Continuous Integration (CI) runs all tests and checks automatically on push/PR to `master` (see `.github/workflows/ci.yml`).
 
 ## Options
 
@@ -95,6 +112,7 @@ https://datomatic.no-intro.org/index.php?page=download
 - `requests` (`pip install requests`)
 - Optional: `tqdm` for progress bars (`pip install tqdm`)
 - Install all via requirements file: `pip install -r requirements.txt`
+- For development: `pip install -r requirements-dev.txt`
 
 ## License
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def rename_file(old_path: Path, new_name: str, dry_run: bool = False) -> bool:
     """Rename a file to the official DAT name"""
     old_path = Path(old_path)
@@ -11,6 +12,7 @@ def rename_file(old_path: Path, new_name: str, dry_run: bool = False) -> bool:
     if not dry_run:
         old_path.rename(new_path)
     return True
+
 
 def rename_cd_based_game_folder(folder_path: Path, new_name: str, dry_run: bool = False) -> bool:
     """Rename a folder containing CD-based game files to the official DAT name"""

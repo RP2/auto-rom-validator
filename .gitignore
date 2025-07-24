@@ -30,6 +30,7 @@ htmlcov/
 
 # Pytest
 .cache/
+.pytest_cache/
 
 # Jupyter Notebook
 .ipynb_checkpoints
